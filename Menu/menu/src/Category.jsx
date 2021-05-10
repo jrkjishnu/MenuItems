@@ -1,9 +1,16 @@
 import React from 'react'
 
-export default function Category() {
+export default function Category({filterItems,categories}) {
     return (
         <div>
-            <h2>Data</h2>
+            {
+                categories.map((category)=>
+                {
+                    return(
+                        <button onClick={()=>filterItems(category)}>{category}</button>
+                    )
+                })
+            }
         </div>
     )
 }

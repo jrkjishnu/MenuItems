@@ -1,5 +1,5 @@
 import React from 'react'
-import Category from './Category';
+
 export default function Menu({data}) {
     return (
         <div>
@@ -8,7 +8,13 @@ export default function Menu({data}) {
                 data.map((item)=>
                 {
                     return(
-                        <button onClick={()=><Category />}>{item.category}</button>
+                        <section>
+
+                        <img src={item.img} alt="" height='300px'/>
+                        <h4>{item.title}</h4>
+                        <h5>Rs.{item.price}</h5>
+
+                        </section>
                       
                     )
                 })
