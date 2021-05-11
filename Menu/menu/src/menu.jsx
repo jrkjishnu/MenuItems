@@ -1,24 +1,26 @@
-import React from 'react'
+import React from 'react';
 
-export default function Menu({data}) {
-    return (
-        <div>
-            <h1>Our Menu</h1>
-            {
-                data.map((item)=>
-                {
-                    return(
-                        <section>
+const Menu = ({ items }) => {
+  return (
+    <div className='section-center'>
+      {items.map((menuItem) => {
+        console.log("items are"+menuItem.title);
+        const { id, title, img, desc, price } = menuItem;
+        return (
+          <article key={id} className='menu-item'>
+            <img src={img} alt={title} className='photo' />
+            <div className='item-info'>
+              <header>
+                <h4>{title}</h4>
+                <h4 className='price'>${price}</h4>
+              </header>
+              <p className='item-text'>{desc}</p>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  );
+};
 
-                        <img src={item.img} alt="" height='300px'/>
-                        <h4>{item.title}</h4>
-                        <h5>Rs.{item.price}</h5>
-
-                        </section>
-                      
-                    )
-                })
-            }
-        </div>
-    )
-}
+export default Menu;

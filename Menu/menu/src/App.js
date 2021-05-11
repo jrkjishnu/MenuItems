@@ -1,41 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
 import Menu from './menu';
-import data from './data';
-import Category from './Category'
-import { useState } from 'react';
+import Category from './Category';
+import Axios from 'axios';
 
 
-const allCategories =['all',...new Set(data.map((item)=>item.category))];
-console.log(allCategories);
 function App() {
 
-  const [menuItems,setMenuItems] = useState(data);
-  const [categories,setCategories] = useState(allCategories);
+  const [items,setItems] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
 
-  const filterItems = (category)=>
+ 
+  const allCategories = ['all', ...new Set(menuItems.map((item) => item.category))];
+  const [categories, setCategories] = useState([]);
+
+  useEffect(()=>
   {
-    
-    if(category === 'all')
+    Axios.get("http://localhost:4000/items").then((response)=>
     {
-      setMenuItems(data);
-      console.log(category);
-    }
-    else
-    {
-      const newItems = data.filter((item)=>item.category === category)
-      setMenuItems(newItems);
-    }
+      setItems(response.data);
+      setMenuItems(response.data);
+      setCategories(allCategories);
+    })
+  },[])
 
-  }
+  console.log(allCategories);
+
+  const filterItems = (category) => {
+    if (category === 'all') {
+      setMenuItems(items);
+      return;
+    }
+    const newItems = items.filter((item) => item.category === category);
+    setMenuItems(newItems);
+  };
 
   return (
-    <div className="App">
-      <header className="App-header">
-      <Category filterItems={filterItems} categories={categories}/>
-      <Menu data={menuItems} />
-      </header>
-    </div>
+    <main>
+      <section className="menu section">
+        <div className="title">
+          <h2>our menu</h2>
+          <div className="underline"></div>
+        </div>
+        <Category categories={categories} filterItems={filterItems} />
+        <Menu items={menuItems} />
+      </section>
+    </main>
   );
 }
 
